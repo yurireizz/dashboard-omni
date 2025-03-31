@@ -26,9 +26,6 @@ def load_data():
     url = 'https://docs.google.com/spreadsheets/d/15WAIszw3nCjT2_01z_2DLeVG2ziVOMiA4s72l7Q1yzg/export?format=csv&gid=451427835'
     df = pd.read_csv(url)
     
-    # Mostrar os dados brutos para debug
-    st.write("Dados brutos:")
-    st.write(df.head())
     
     # Processar todas as colunas numéricas
     for col in df.columns:
@@ -51,10 +48,6 @@ def load_data():
     if 'Dia' in df.columns:
         # Definir a coluna Dia como índice
         df.set_index('Dia', inplace=True)
-    
-    # Mostrar os dados processados
-    st.write("Dados processados:")
-    st.write(df.head())
     
     return df
 
