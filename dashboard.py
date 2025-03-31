@@ -490,49 +490,6 @@ with tab4:
         
         st.plotly_chart(fig, use_container_width=True)
         
-        # Gráfico de gap diário
-        st.subheader("Análise de Gap Diário")
-        
-        # Calcular gap entre média atual e necessária
-        gap_media = dados_projecao['gap_diario_necessario'] - dados_projecao['media_diaria']
-        gap_percentual = gap_media / dados_projecao['gap_diario_necessario'] * 100 if dados_projecao['gap_diario_necessario'] > 0 else 0
-        
-        # Criar dados para o gráfico de comparação
-        df_gap = pd.DataFrame({
-            'Tipo': ['Média Atual', 'Necessário Diário'],
-            'Valor': [dados_projecao['media_diaria'], dados_projecao['gap_diario_necessario']]
-        })
-        
-        # Criar gráfico de barras
-        fig = px.bar(
-            df_gap,
-            x='Tipo',
-            y='Valor',
-            title=f'Comparação: Média Atual vs. Necessário Diário - Faixa {faixa_projecao}',
-            color='Tipo',
-            color_discrete_sequence=['#1f77b4', '#ff7f0e']
-        )
-        
-        st.plotly_chart(fig, use_container_width=True)
-        
-        # Adicionar análise textual
-        if gap_media > 0:
-            st.warning(f"""
-            **Análise de Gap:**
-            
-            Para atingir a meta na faixa {faixa_projecao}, é necessário aumentar a média diária em **R$ {gap_media:,.2f}** 
-            (aumento de {abs(gap_percentual):.2f}% em relação à média atual).
-            
-            Com a média atual, a projeção indica que chegaremos a **{dados_projecao['percentual_projetado']:.2f}%** da meta.
-            """)
-        else:
-            st.success(f"""
-            **Análise de Gap:**
-            
-            A média diária atual está **R$ {abs(gap_media):,.2f}** acima do necessário para atingir a meta na faixa {faixa_projecao}.
-            
-            Com a média atual, a projeção indica que superaremos a meta, chegando a **{dados_projecao['percentual_projetado']:.2f}%**.
-            """)
 
 # Adicionar rodapé
 st.markdown("---")
