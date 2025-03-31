@@ -21,7 +21,7 @@ Este dashboard apresenta a análise de metas vs. realizados por faixa de dias, p
 """)
 
 # Carregar dados
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=60)
 def load_data():
     url = 'https://docs.google.com/spreadsheets/d/15WAIszw3nCjT2_01z_2DLeVG2ziVOMiA4s72l7Q1yzg/export?format=csv&gid=451427835'
     df = pd.read_csv(url)
