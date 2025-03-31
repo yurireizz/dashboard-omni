@@ -335,36 +335,6 @@ with tab2:
             df_tendencia = df.reset_index()
             df_tendencia.columns = ['Dia'] + list(df_tendencia.columns[1:])
             df_tendencia = df_tendencia[['Dia', col_realizado]].copy()
-        
-        # Calcular a diferença diária (incremento)
-        df_tendencia['Incremento'] = df_tendencia[col_realizado].diff()
-        
-        # Substituir NaN por 0
-        df_tendencia['Incremento'] = df_tendencia['Incremento'].fillna(0)
-        
-        # Gráfico de incremento diário
-        st.subheader("Incremento Diário")
-        fig = px.bar(
-            df_tendencia,
-            x='Dia',
-            y='Incremento',
-            title=f'Incremento Diário - Faixa {faixa_selecionada}',
-            labels={'Incremento': 'Valor Incremental', 'Dia': 'Data'},
-            color='Incremento',
-            color_continuous_scale=px.colors.sequential.Viridis
-        )
-        
-        # Adicionar linha de média móvel
-        df_tendencia['Media_Movel'] = df_tendencia['Incremento'].rolling(window=7, min_periods=1).mean()
-        fig.add_trace(go.Scatter(
-            x=df_tendencia['Dia'],
-            y=df_tendencia['Media_Movel'],
-            mode='lines',
-            name='Média Móvel (7 dias)',
-            line=dict(color='red', width=2)
-        ))
-        
-        st.plotly_chart(fig, use_container_width=True)
 
 with tab3:
     st.header("Histórico Diário")
@@ -400,34 +370,6 @@ with tab3:
         xaxis_title='Data',
         yaxis_title='Valor Realizado',
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
-    )
-    
-    st.plotly_chart(fig, use_container_width=True)
-    
-    # Mostrar totais por faixa
-    st.subheader("Totais Realizados por Faixa")
-    
-    # Criar dataframe para os totais
-    df_totais = pd.DataFrame({
-        'Faixa': ['1-30', '31', '61', '121', '181', '361'],
-        'Total Realizado': [
-            totais['r1_total'],
-            totais['r30_total'],
-            totais['r61_total'],
-            totais['r121_total'],
-            totais['r181_total'],
-            totais['r361_total']
-        ]
-    })
-    
-    # Gráfico de barras para os totais
-    fig = px.bar(
-        df_totais,
-        x='Faixa',
-        y='Total Realizado',
-        title='Total Realizado por Faixa',
-        color='Total Realizado',
-        color_continuous_scale=px.colors.sequential.Viridis
     )
     
     st.plotly_chart(fig, use_container_width=True)
